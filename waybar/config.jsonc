@@ -1,0 +1,69 @@
+{
+  "layer": "top", // Waybar at top layer
+  "position": "top", // Waybar position (top|bottom|left|right)
+  "height": 16, // Waybar height (to be removed for auto height)
+  // "width": 1280, // Waybar width
+  "spacing": 8, // Gaps between modules (4px)
+  "margin-top": 8,
+  "margin-left": 8,
+  "margin-right": 8,
+  // "mode": "dock",
+  "reload_style_on_change": true,
+  "include": [
+    "~/.config/waybar/modules.json",
+    "~/.config/waybar/quicklinks.json",
+    "~/.config/waybar/hardware.json",
+    "~/.config/waybar/media.json",
+    "~/.config/waybar/media.json"
+  ],
+  "modules-left": [
+    "custom/appmenu",
+    "niri/window",
+    // "group/quicklinks",
+    "tray",
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "clock",
+  ],
+  "modules-right": [
+    "battery",
+    "network",
+    // "mpd",
+    "group/media",
+    "group/hardware",
+    // "niri/workspaces",
+    "custom/powerprofile",
+    "custom/notification"
+  ],
+
+  "niri/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+        "6": "6",
+        "7": "7",
+        "8": "8",
+        "9": "9",
+        "10": "10"
+    },
+    "on-click": "activate"
+  },
+
+  "niri/window": {
+    "format": "{title}",
+    "max-length": 50,
+    "separate-outputs": true
+  },
+
+  "custom/powerprofile": {
+        "format": "{text}",
+        "return-type": "json",
+        "interval": 5,
+        "exec": "~/.config/waybar/modules/powerprofile_status.sh"
+    }
+}
