@@ -38,10 +38,11 @@ input {
         // drag false
         // drag-lock
         natural-scroll
-        accel-speed 0.9
+        accel-speed 0.7
         accel-profile "flat"
         // scroll-method "two-finger"
         // disabled-on-external-mouse
+        scroll-factor 0.5
     }
 
     mouse {
@@ -91,7 +92,7 @@ output "eDP-1" {
     mode "1920x1200@60.000"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1.2
+    scale 1.1
 
     // Transform allows to rotate the output counter-clockwise, valid values are:
     // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
@@ -106,12 +107,15 @@ output "eDP-1" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=1280 y=0
+    position x=1920 y=0 // ini posisi monitor lappy di kanan
+    //position x=0 y=1080
 }
 
-output "HDMI-A-1" {
+output "Xiaomi Corporation P27FBA-RAGL 5105400006401" {
     mode "1920x1080@100.000"
-    scale 1.1
+    scale 1.0
+    position x=0 y=0 // posisi monitor ini di tengah
+    //position x=0 y=0
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -127,7 +131,7 @@ layout {
     // - "always", the focused column will always be centered.
     // - "on-overflow", focusing a column will center it if it doesn't fit
     //   together with the previously focused column.
-    center-focused-column "never"
+    center-focused-column "on-overflow"
 
     // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
     preset-column-widths {
@@ -223,7 +227,7 @@ layout {
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
-        on
+        //on
 
         // By default, the shadow draws only around its window, and not behind it.
       // Uncomment this setting to make the shadow draw behind its window.
@@ -375,12 +379,27 @@ window-rule {
 }
 
 window-rule {
+	match app-id="Waydroid" title="Waydroid"
+	//open-maximized true
+	//open-fullscreen true
+    open-floating true
+    default-column-width { fixed 512; }
+    default-window-height { fixed 927; }
+}
+
+window-rule {
     opacity 0.90
 }
 
 window-rule {
     match is-focused=true
     draw-border-with-background false
+    opacity 1.0
+}
+
+window-rule {
+    match app-id="zen"
+    match is-floating=true
     opacity 1.0
 }
 
@@ -682,6 +701,8 @@ binds {
     Mod+Shift+F12 { spawn-sh "notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\nYou can middle click or flick this notification to dismiss it!\""; }
     Mod+P { spawn-sh "~/.config/niri/scripts/power-profile.sh"; }
     Mod+V { spawn-sh "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"; }
+
+    Mod+M repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
 
 }
 
