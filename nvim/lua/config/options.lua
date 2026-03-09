@@ -18,3 +18,4 @@ end, { desc = "Format Document" })
 
 vim.opt.linebreak = true
 vim.opt.autoindent = true
+-- vim.opt.relativenumber = false
