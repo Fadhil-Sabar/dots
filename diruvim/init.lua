@@ -1,0 +1,5 @@
+require("config.lazy")
+require("config.keymaps")
+require("config.options")
+require("config.prayer").setup()
+require('lualine').setup()

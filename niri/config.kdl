@@ -455,6 +455,7 @@ binds {
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+E hotkey-overlay-title="Run an Application: thunar" { spawn "Thunar"; }
 
+    Mod+Z hotkey-overlay-title="Open Zen Browser" { spawn "zen-browser"; }
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
     // For example, this is a standard bind to toggle the screen reader (orca).
@@ -743,6 +744,8 @@ binds {
     //Mod+V { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
     Mod+X { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "calculator"; }
     //Mod+L { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
+    Mod+Shift+W { spawn "kitty" "--" "fish" "-c" "cw; and nvim ."; }
+
 }
 
 environment {
