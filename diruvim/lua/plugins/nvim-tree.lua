@@ -1,7 +1,11 @@
 return {
   "nvim-tree/nvim-tree.lua",
   version = "*",
-  lazy = false,
+  cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+  keys = {
+    { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle file explorer" },
+    { "<leader>o", "<cmd>NvimTreeFocus<cr>", desc = "Focus file explorer" },
+  },
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
@@ -15,6 +19,10 @@ return {
 
         -- hapus s
         vim.keymap.del("n", "s", { buffer = bufnr })
+
+        -- l untuk buka folder/file, h untuk collapse
+        vim.keymap.set("n", "l", api.node.open.edit, { buffer = bufnr, desc = "Open" })
+        vim.keymap.set("n", "h", api.node.navigate.parent_close, { buffer = bufnr, desc = "Collapse" })
       end,
 			update_focused_file = {
 				enable = true,      -- auto focus ke file yang sedang dibuka

@@ -2,8 +2,8 @@ return {
   {
     "mg979/vim-visual-multi",
     branch = "master",
+    keys = { "<C-d>", { "<C-d>", mode = "x" } },
     init = function()
-      -- Opsional: mapping agar lebih mirip VSCode
       vim.g.VM_maps = {
         ["Find Under"] = "<C-d>",
         ["Find Next"] = "<C-d>",

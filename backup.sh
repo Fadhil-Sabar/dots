@@ -6,7 +6,7 @@ BACKUP_DIR="$HOME/.config/dotfiles_config_backup" # Folder backup Git Anda
 CONFIG_SOURCE="$HOME/.config"
 
 # Daftar folder yang di-copy (menimpa)
-COPY_FOLDERS=("niri" "waybar" "nvim" "lazygit" "lazyvim" "diruvim")
+COPY_FOLDERS=("niri" "waybar" "nvim" "lazygit" "lazyvim" "diruvim" "xfce4")
 
 # Folder yang di-zip
 ZIP_FOLDER="hypr"

@@ -1,5 +1,5 @@
-require("config.lazy")
-require("config.keymaps")
 require("config.options")
+require("config.keymaps")
+require("config.autocmds")
+require("config.lazy")
 require("config.prayer").setup()
-require('lualine').setup()

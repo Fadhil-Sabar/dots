@@ -27,8 +27,19 @@ customCommands:
     context: 'commits'
     description: 'Copy link and title'
     command: |
-      set REMOTE_URL (git remote get-url origin | sed -E 's/\.git$//; s/git@([^:]+):/http:\/\/\1\//')
-      printf "%s/commit/%s\n%s" $REMOTE_URL {{.SelectedLocalCommit.Hash}} {{.SelectedLocalCommit.Name | quote}} | wl-copy
+      sh -c '
+        REMOTE_URL=$(git remote get-url origin | sed -E "s/\.git$//; s#git@([^:]+):#https://\1/#")
+        if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then
+          printf "%s/commit/%s\n%s" "$REMOTE_URL" "$1" "$2" | wl-copy
+        elif command -v xclip >/dev/null 2>&1; then
+          printf "%s/commit/%s\n%s" "$REMOTE_URL" "$1" "$2" | xclip -selection clipboard
+        elif command -v xsel >/dev/null 2>&1; then
+          printf "%s/commit/%s\n%s" "$REMOTE_URL" "$1" "$2" | xsel --clipboard --input
+        else
+          echo "Install wl-clipboard, xclip, or xsel to copy to the clipboard" >&2
+          exit 1
+        fi
+      ' sh {{.SelectedLocalCommit.Hash}} {{.SelectedLocalCommit.Name | quote}}
     loadingText: 'Copying...'
 os:
   editCommand: 'nvim' # Example

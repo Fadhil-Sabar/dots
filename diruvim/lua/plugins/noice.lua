@@ -2,7 +2,11 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
   opts = {
-    -- add any options here
+    lsp = {
+      override = {
+        ["cmp.entry.get_documentation"] = false,
+      },
+    },
   },
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries

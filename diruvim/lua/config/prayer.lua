@@ -75,19 +75,31 @@ local function fetch_prayer_times()
     .. date
     .. "?latitude=-6.2897&longitude=106.6577&method=20"
 
-  local result = vim.fn.system({ "curl", "-s", url })
-  local ok, json = pcall(vim.fn.json_decode, result)
-  if not ok or not json or not json.data then return end
+  local stdout = {}
+  vim.fn.jobstart({ "curl", "-s", url }, {
+    on_stdout = function(_, data)
+      if data then
+        for _, line in ipairs(data) do
+          table.insert(stdout, line)
+        end
+      end
+    end,
+    on_exit = function()
+      local result = table.concat(stdout, "")
+      local ok, json = pcall(vim.fn.json_decode, result)
+      if not ok or not json or not json.data then return end
 
-  local timings = json.data.timings
-  cached = {
-    Fajr    = timings.Fajr,
-    Dhuhr   = timings.Dhuhr,
-    Asr     = timings.Asr,
-    Maghrib = timings.Maghrib,
-    Isha    = timings.Isha,
-  }
-  update_next_prayer()
+      local timings = json.data.timings
+      cached = {
+        Fajr    = timings.Fajr,
+        Dhuhr   = timings.Dhuhr,
+        Asr     = timings.Asr,
+        Maghrib = timings.Maghrib,
+        Isha    = timings.Isha,
+      }
+      update_next_prayer()
+    end,
+  })
 end
 
 function M.get_next_prayer()
@@ -109,11 +121,11 @@ function M.show_schedule()
     "  Jadwal Sholat - " .. today,
     "  Tangerang Selatan",
     "",
-    "  🌙 Fajr     " .. (cached.Fajr or "-"),
-    "  🌅 Dhuhr    " .. (cached.Dhuhr or "-"),
-    "  🌤  Asr      " .. (cached.Asr or "-"),
-    "  🌆 Maghrib  " .. (cached.Maghrib or "-"),
-    "  🌃 Isha     " .. (cached.Isha or "-"),
+    "  - Fajr     " .. (cached.Fajr or "-"),
+    "  - Dhuhr    " .. (cached.Dhuhr or "-"),
+    "  - Asr      " .. (cached.Asr or "-"),
+    "  - Maghrib  " .. (cached.Maghrib or "-"),
+    "  - Isha     " .. (cached.Isha or "-"),
   }
 
   -- highlight next prayer
@@ -153,8 +165,10 @@ function M.setup()
     check_reminders()
   end))
 
-	vim.loop.new_timer():start(0, 1000, vim.schedule_wrap(function()
-		require("lualine").refresh()
+	vim.loop.new_timer():start(0, 60000, vim.schedule_wrap(function()
+    if package.loaded["lualine"] then
+		  require("lualine").refresh()
+    end
 	end))
 end
 
